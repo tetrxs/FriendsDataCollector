@@ -30,7 +30,7 @@ public final class FriendsDataCollector extends Plugin {
                 @Override
                 public void run() {
                     try {
-                        sqlUtil.executeUpdate("SELECT 1");
+                        sqlUtil.executeQuery("SELECT 1");
                     } catch (SQLException e) {
                         throw new RuntimeException(e);
                     }
