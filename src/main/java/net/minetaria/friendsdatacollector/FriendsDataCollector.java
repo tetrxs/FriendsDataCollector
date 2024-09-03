@@ -1,23 +1,32 @@
 package net.minetaria.friendsdatacollector;
 
+import net.md_5.bungee.api.config.ServerInfo;
+import net.md_5.bungee.api.event.PluginMessageEvent;
+import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.api.plugin.Plugin;
+import net.md_5.bungee.event.EventHandler;
+import net.minetaria.friendsdatacollector.commands.FriendCommand;
 import net.minetaria.friendsdatacollector.listener.PlayerConnectListener;
 import net.minetaria.friendsdatacollector.listener.PlayerDisconnectListener;
+import net.minetaria.friendsdatacollector.listener.PlayerLoginListener;
 import net.minetaria.friendsdatacollector.listener.PlayerSwitchServerListener;
 import net.minetaria.friendsdatacollector.utils.SQLUtil;
 
+import java.io.ByteArrayInputStream;
+import java.io.DataInputStream;
+import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
-public final class FriendsDataCollector extends Plugin {
+public final class FriendsDataCollector extends Plugin implements Listener {
 
     public static FriendsDataCollector instance;
     private SQLUtil sqlUtil;
 
-    public final static String prefix = "§6§l§oMine§5§l§otaria §8• §7";
+    public final static String prefix = "§5§lFriends §8• §7";
 
     @Override
     public void onEnable() {
@@ -40,9 +49,32 @@ public final class FriendsDataCollector extends Plugin {
             throw new RuntimeException(e);
         }
 
+        getProxy().getPluginManager().registerCommand(this, new FriendCommand());
+
+        getProxy().registerChannel("BungeeCord");
+        getProxy().getPluginManager().registerListener(this, this);
         getProxy().getPluginManager().registerListener(this, new PlayerConnectListener());
         getProxy().getPluginManager().registerListener(this, new PlayerDisconnectListener());
         getProxy().getPluginManager().registerListener(this, new PlayerSwitchServerListener());
+        getProxy().getPluginManager().registerListener(this, new PlayerLoginListener());
+    }
+
+    @EventHandler
+    public void onPluginMessage(PluginMessageEvent event) {
+        if (event.getTag().equalsIgnoreCase("BungeeCord")) {
+            DataInputStream in = new DataInputStream(new ByteArrayInputStream(event.getData()));
+            try {
+                String channel = in.readUTF();
+                if(channel.equals("bungeeCommandExecutionFriendsAPI")){
+                    StringBuilder input = new StringBuilder(in.readUTF());
+                    input.deleteCharAt(0);
+                    getProxy().getPluginManager().dispatchCommand(getProxy().getPlayer(event.getReceiver().toString()), input.toString());
+                }
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+
+        }
     }
 
     @Override

@@ -64,5 +64,12 @@
             <version>1.21-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>de.gaunercools</groupId>
+            <artifactId>LanguageAPI</artifactId>
+            <version>1.0</version>
+            <scope>system</scope>
+            <systemPath>E:/MinecraftServerStuff/SRC/Minetaria/APIs/LanguageAPI_Bungee.jar</systemPath>
+        </dependency>
     </dependencies>
 </project>

@@ -1,3 +1,4 @@
 name: FriendsDataCollector
 version: '${project.version}'
 main: net.minetaria.friendsdatacollector.FriendsDataCollector
+

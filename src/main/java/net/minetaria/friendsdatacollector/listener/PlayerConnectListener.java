@@ -1,13 +1,12 @@
 package net.minetaria.friendsdatacollector.listener;
 
+import de.gaunercools.languageapibungee.mysql.LanguageAPIBungee;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.event.PostLoginEvent;
 import net.md_5.bungee.api.event.ServerConnectEvent;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.event.EventHandler;
 import net.minetaria.friendsdatacollector.FriendsDataCollector;
-
-import java.sql.Array;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
