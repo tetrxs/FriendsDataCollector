@@ -188,7 +188,7 @@ public class FriendCommand extends Command {
                             player.sendMessage(FriendsDataCollector.prefix + LanguageAPIBungee.getTranslatedMessage(player,"friends_command_request_noFound"));
                         }
                         break;
-                    case "declinetAll":
+                    case "declineAll":
                         loadedRequests = FriendsDataCollector.getFriendRequests(player.getUniqueId().toString());
                         if (!loadedRequests.isEmpty()) {
                             for (String s:loadedRequests) {
